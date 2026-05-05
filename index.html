@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Entrega de Guardia Neonatal · Good Hope</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Guardia GH">
+<meta name="theme-color" content="#1b4fa3">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root{
+  --bg:#f4f3ef;--sur:#fff;--sur2:#f0efe9;--sur3:#e8e6de;
+  --bor:#dbd9d0;--bor2:#c8c5ba;
+  --tx:#18170f;--tx2:#52504a;--tx3:#8c8a82;
+  --bl:#1b4fa3;--bll:#e8eef9;--blm:#b8cdf0;
+  --gn:#1a6640;--gnl:#e5f2eb;--gnm:#9ecfb4;
+  --am:#7a4a08;--aml:#fef3e0;--amm:#f5c87a;
+  --rd:#8a1818;--rdl:#fdeaea;--rdm:#f0a0a0;
+  --pu:#5a1a8a;--pul:#f3edfb;
+  --r:8px;--rl:12px;
+  --sh:0 1px 3px rgba(0,0,0,.07);
+  --font:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);font-size:15px;line-height:1.5;min-height:100vh}
+
+/* HEADER */
+.hdr{background:var(--sur);border-bottom:1px solid var(--bor);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:var(--sh)}
+.logo{width:34px;height:34px;border-radius:8px;background:var(--bl);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+.hdr-l{display:flex;align-items:center;gap:10px}
+.hdr-t{font-size:14px;font-weight:600}
+.hdr-s{font-size:11px;color:var(--tx3)}
+.hdr-r{font-size:11px;color:var(--tx3);text-align:right;line-height:1.4}
+
+/* UNIT BAR */
+.ubar{background:var(--sur);border-bottom:1px solid var(--bor);display:flex;overflow-x:auto;scrollbar-width:none}
+.ubar::-webkit-scrollbar{display:none}
+.ubtn{flex:1;min-width:180px;padding:13px 16px;border:none;background:transparent;font-family:var(--font);font-size:13px;font-weight:500;color:var(--tx3);border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all .15s}
+.ubtn.u-uci{color:var(--bl);border-bottom-color:var(--bl)}
+.ubtn.u-sala{color:var(--gn);border-bottom-color:var(--gn)}
+
+/* TAB NAV */
+.nav{background:var(--sur2);border-bottom:1px solid var(--bor);display:flex;overflow-x:auto;padding:0 14px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nbtn{padding:9px 14px;border:none;background:transparent;font-family:var(--font);font-size:13px;color:var(--tx3);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.nbtn:hover{color:var(--tx)}
+.nbtn.active{color:var(--bl);border-bottom-color:var(--bl);font-weight:500}
+
+/* LAYOUT */
+.main{max-width:920px;margin:0 auto;padding:18px 14px 80px}
+
+/* CARDS */
+.card{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;box-shadow:var(--sh)}
+.card-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.ctitle{font-size:11.5px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:7px}
+
+/* SBAR dots */
+.sd{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.sd-s{background:var(--bll);color:var(--bl)}.sd-b{background:var(--gnl);color:var(--gn)}
+.sd-a{background:var(--aml);color:var(--am)}.sd-r{background:var(--pul);color:var(--pu)}
+
+/* FORMS */
+.f{margin-bottom:11px}
+.f label{display:block;font-size:12px;color:var(--tx3);margin-bottom:3px;font-weight:500}
+input,select,textarea{width:100%;font-family:var(--font);font-size:14px;padding:7px 10px;border:1px solid var(--bor);border-radius:var(--r);background:var(--sur);color:var(--tx);outline:none;transition:border-color .15s;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(27,79,163,.08)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%238c8a82' d='M5 6L0 0h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+textarea{resize:vertical;min-height:68px;line-height:1.5}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:580px){.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.g2{grid-template-columns:1fr}}
+
+/* VITALS */
+.vitals{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:480px){.vitals{grid-template-columns:repeat(2,1fr)}}
+.vbox{background:var(--sur2);border-radius:var(--r);padding:8px 10px;text-align:center}
+.vbox span{display:block;font-size:11px;color:var(--tx3);margin-bottom:2px}
+.vbox input{background:transparent;border:none;padding:0;text-align:center;font-size:20px;font-weight:500;width:100%;color:var(--tx)}
+.vbox input:focus{box-shadow:none;border:none}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rl);padding:12px 14px;text-align:center;box-shadow:var(--sh)}
+.stn{font-size:30px;font-weight:300;line-height:1.1}
+.stl{font-size:11px;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.bc{background:var(--rdl);color:var(--rd)}.bo{background:var(--aml);color:var(--am)}.be{background:var(--gnl);color:var(--gn)}
+
+/* PATIENT CARDS */
+.ptc{border:1px solid var(--bor);border-radius:var(--r);padding:11px 13px;margin-bottom:8px;background:var(--sur);transition:border-color .15s}
+.ptc:hover{border-color:var(--bor2)}
+.ptc.critico{border-left:3px solid #c0392b}
+.ptc.observacion{border-left:3px solid #e67e22}
+.ptc.estable{border-left:3px solid #27ae60}
+.ptr{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.ptn{font-weight:600;font-size:14px}
+.ptd{font-size:12px;color:var(--tx3);margin-top:2px}
+.ptm{display:flex;gap:10px;font-size:12px;color:var(--tx2);margin-top:6px;flex-wrap:wrap}
+.ptp{margin-top:7px;padding:6px 10px;background:var(--aml);border-radius:6px;font-size:12px;color:var(--am);border-left:2px solid var(--amm)}
+.ptv{margin-top:6px;padding:6px 10px;background:var(--rdl);border-radius:6px;font-size:12px;color:var(--rd);border-left:2px solid var(--rdm)}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{padding:5px 11px;border:1px solid var(--bor);border-radius:20px;font-size:12px;cursor:pointer;transition:all .12s;background:var(--sur);color:var(--tx2);user-select:none}
+.chip:hover{border-color:var(--bor2);background:var(--sur2)}
+.chip.on-uci{background:var(--bll);border-color:var(--blm);color:var(--bl)}
+.chip.on-sala{background:var(--gnl);border-color:var(--gnm);color:var(--gn)}
+
+/* BUTTONS */
+.btn{font-family:var(--font);cursor:pointer;font-size:13px;padding:8px 16px;border-radius:var(--r);border:1px solid var(--bor);background:var(--sur);color:var(--tx);transition:all .12s;font-weight:500;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.btn:hover{background:var(--sur2)}
+.btn:active{transform:scale(.98)}
+.btn-bl{background:var(--bl);color:#fff;border-color:var(--bl)}.btn-bl:hover{background:#163d80}
+.btn-gn{background:var(--gn);color:#fff;border-color:var(--gn)}.btn-gn:hover{background:#145535}
+.btn-del{background:var(--rdl);color:var(--rd);border-color:var(--rdm);font-size:12px;padding:5px 9px}
+.btn-del:hover{background:#fad5d5}
+.btn-gh{background:transparent;border-color:transparent;color:var(--tx3)}.btn-gh:hover{background:var(--sur2);color:var(--tx)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* ALERTS */
+.alert{padding:9px 13px;border-radius:var(--r);font-size:13px;margin-bottom:10px}
+.a-ok{background:var(--gnl);color:var(--gn);border-left:3px solid var(--gn)}
+.a-info{background:var(--bll);color:var(--bl);border-left:3px solid var(--bl)}
+.a-warn{background:var(--aml);color:var(--am);border-left:3px solid var(--amm)}
+
+/* HIST */
+.hi{border:1px solid var(--bor);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;background:var(--sur);display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;transition:all .15s}
+.hi:hover{border-color:var(--blm);background:var(--bll)}
+.hid{font-weight:600;font-size:14px}
+.him{font-size:12px;color:var(--tx3);margin-top:2px}
+
+/* REPORT BOX */
+.rbox{background:#16150f;color:#e4e2d8;font-family:var(--mono);font-size:12.5px;padding:20px;border-radius:var(--rl);white-space:pre-wrap;word-break:break-word;line-height:1.65;margin-top:14px;max-height:65vh;overflow-y:auto;border:1px solid #2a2820}
+.rbox::-webkit-scrollbar{width:5px}.rbox::-webkit-scrollbar-thumb{background:#3a3830;border-radius:3px}
+
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--sur);border-radius:var(--rl);padding:22px 24px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.modal p{font-size:13px;color:var(--tx2);margin-bottom:16px;line-height:1.5}
+.modal-acts{display:flex;gap:8px;justify-content:flex-end}
+
+/* EMPTY */
+.empty{text-align:center;padding:36px 20px;color:var(--tx3);font-size:13px}
+.empty-i{font-size:34px;margin-bottom:10px}
+.snote{font-size:12px;color:var(--tx3);margin-bottom:10px;line-height:1.5}
+#file-import{display:none}
+
+/* PRINT */
+@media print{
+  .hdr,.ubar,.nav,.acts,.btn,#view-resumen,#view-pacientes,#view-nuevo,#view-historial{display:none!important}
+  .rbox{background:#fff;color:#000;max-height:none;border:1px solid #ccc;font-size:12px}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="logo">GH</div>
+    <div><div class="hdr-t">Entrega de Guardia Neonatal</div><div class="hdr-s">Clínica Adventista Good Hope · Lima</div></div>
+  </div>
+  <div class="hdr-r" id="hdr-date"></div>
+</header>
+
+<div class="ubar">
+  <button class="ubtn u-uci" id="btn-uci" onclick="switchUnit('uci')">🏥 UCI / Intermedios Neonatal</button>
+  <button class="ubtn" id="btn-sala" onclick="switchUnit('sala')">👶 Sala de Alojamiento Conjunto</button>
+</div>
+
+<div class="nav">
+  <button class="nbtn active" id="tn-resumen" onclick="goTab('resumen')">Guardia actual</button>
+  <button class="nbtn" id="tn-pacientes" onclick="goTab('pacientes')">Pacientes</button>
+  <button class="nbtn" id="tn-nuevo" onclick="goTab('nuevo')">+ Nuevo paciente</button>
+  <button class="nbtn" id="tn-reporte" onclick="goTab('reporte')">Reporte</button>
+  <button class="nbtn" id="tn-historial" onclick="goTab('historial')">📁 Historial</button>
+</div>
+
+<main class="main">
+
+<!-- ═══ GUARDIA ACTUAL ═══ -->
+<div id="view-resumen">
+  <div class="stats" id="stats-row"></div>
+  <div class="card">
+    <div class="card-hd"><div class="ctitle">Datos de la guardia</div></div>
+    <div class="g2">
+      <div class="f"><label>Médico que entrega</label><input type="text" id="g-entrega" placeholder="Dr/a. apellido y nombre"></div>
+      <div class="f"><label>Médico que recibe</label><input type="text" id="g-recibe" placeholder="Dr/a. apellido y nombre"></div>
+      <div class="f"><label>Turno</label>
+        <select id="g-turno">
+          <option>Mañana (07:00 – 13:00)</option><option>Tarde (13:00 – 19:00)</option>
+          <option>Noche (19:00 – 07:00)</option><option>Guardia 12h AM (07:00 – 19:00)</option><option>Guardia 12h PM (19:00 – 07:00)</option>
+        </select>
+      </div>
+      <div class="f"><label>Fecha</label><input type="date" id="g-fecha"></div>
+    </div>
+    <div class="f"><label>Novedades generales</label><textarea id="g-novedades" placeholder="Ingresos, traslados, coordinaciones, incidentes…"></textarea></div>
+    <div class="f"><label>Alertas de stock / insumos faltantes</label><input type="text" id="g-stock" placeholder="Ej: Cafeína en stock limitado, solicitar NPT para 06:00…"></div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="margin-bottom:10px">Insumos verificados al iniciar guardia</div>
+    <div class="chips" id="insumos-chips"></div>
+  </div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="ctitle">Pacientes — <span id="unit-lbl-res"></span></div>
+      <button class="btn btn-bl" onclick="goTab('nuevo')" style="font-size:12px;padding:6px 12px">+ Agregar</button>
+    </div>
+    <div id="pt-list-res"></div>
+  </div>
+  <div class="card" style="border:1.5px dashed var(--bor2);background:var(--sur2)">
+    <div class="ctitle" style="margin-bottom:8px">💾 Guardar guardia en historial</div>
+    <p class="snote">Al finalizar el turno, guarda la guardia en el historial y exporta el archivo de respaldo. El colega que recibe puede importarlo en su dispositivo.</p>
+    <div class="acts" style="margin-top:0">
+      <button class="btn btn-gn" onclick="saveToHistory()">💾 Guardar en historial</button>
+      <button class="btn" onclick="exportCurrent()">⬇ Exportar (.json)</button>
+    </div>
+    <div id="msg-guardia" style="display:none;margin-top:10px"></div>
+  </div>
+</div>
+
+<!-- ═══ PACIENTES ═══ -->
+<div id="view-pacientes" style="display:none">
+  <div class="card">
+    <div class="card-hd">
+      <div class="ctitle">Pacientes — <span id="unit-lbl-pts"></span></div>
+      <button class="btn btn-bl" onclick="goTab('nuevo')" style="font-size:12px;padding:6px 12px">+ Nuevo</button>
+    </div>
+    <div id="pt-list-full"></div>
+    <div class="empty" id="empty-pts" style="display:none"><div class="empty-i">🍼</div><div>Sin pacientes en esta unidad.</div></div>
+  </div>
+</div>
+
+<!-- ═══ NUEVO PACIENTE ═══ -->
+<div id="view-nuevo" style="display:none">
+  <div class="card">
+    <div class="ctitle" style="margin-bottom:12px"><span class="sd sd-s">S</span> Situación actual</div>
+    <div class="g3">
+      <div class="f"><label>Nombre / Iniciales RN</label><input type="text" id="p-nombre" placeholder="RN de García M."></div>
+      <div class="f"><label>Cama / Incubadora</label><input type="text" id="p-cama" placeholder="Inc-3, Cuna-5…"></div>
+      <div class="f"><label>Estado clínico</label>
+        <select id="p-estado"><option value="critico">🔴 Crítico</option><option value="observacion">🟡 En observación</option><option value="estable" selected>🟢 Estable</option></select>
+      </div>
+    </div>
+    <div class="g3">
+      <div class="f"><label>EG al nacer (sem)</label><input type="text" id="p-eg" placeholder="32+4"></div>
+      <div class="f"><label>Fecha de nacimiento</label><input type="date" id="p-fnac" onchange="updateEdadPreview()"></div>
+      <div class="f"><label>Peso actual (g)</label><input type="number" id="p-peso" placeholder="1850"></div>
+    </div>
+    <div id="edad-preview" style="display:none;margin-bottom:11px">
+      <div style="background:var(--bll);border:1px solid var(--blm);border-radius:var(--r);padding:7px 12px;font-size:13px;color:var(--bl)">🗓 Edad calculada al día de hoy: <strong id="edad-preview-txt"></strong></div>
+    </div>
+    <div class="f"><label>Diagnóstico(s) principal(es)</label><input type="text" id="p-dx" placeholder="RNPT 32s, SDR, sospecha sepsis neonatal tardía…"></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="margin-bottom:12px"><span class="sd sd-b">B</span> Background / antecedentes</div>
+    <div class="f"><label>Antecedentes prenatales relevantes</label><textarea id="p-ante" placeholder="G2P1, CPN incompleto, RPM 18h, corticoides antenatales 1 dosis…"></textarea></div>
+    <div class="g2">
+      <div class="f"><label>Tipo de parto</label>
+        <select id="p-parto"><option value="">Seleccionar…</option><option>Parto vaginal eutócico</option><option>Parto vaginal — fórceps</option><option>Parto vaginal — ventosa</option><option>Cesárea electiva</option><option>Cesárea de emergencia</option></select>
+      </div>
+      <div class="f"><label>APGAR (1' / 5')</label><input type="text" id="p-apgar" placeholder="6/8"></div>
+    </div>
+    <div class="f"><label>Evolución durante esta guardia</label><textarea id="p-evol" placeholder="Continuó en CPAP nasal, FiO2 30–35%, tolera NPO, se inició NPT a las 20:00…"></textarea></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="margin-bottom:12px"><span class="sd sd-a">A</span> Evaluación clínica actual</div>
+    <div class="vitals">
+      <div class="vbox"><span>FC (lpm)</span><input type="number" id="p-fc" placeholder="145"></div>
+      <div class="vbox"><span>FR (rpm)</span><input type="number" id="p-fr" placeholder="52"></div>
+      <div class="vbox"><span>SpO₂ (%)</span><input type="number" id="p-spo2" placeholder="95"></div>
+      <div class="vbox"><span>Tº (°C)</span><input type="number" step="0.1" id="p-temp" placeholder="36.8"></div>
+    </div>
+
+    <!-- UCI fields -->
+    <div id="uci-fields">
+      <div class="g2">
+        <div class="f"><label>Soporte respiratorio</label>
+          <select id="p-resp"><option value="">Sin soporte</option><option>Oxígeno en Hood</option><option>Cánula nasal bajo flujo</option><option>Cánula nasal alto flujo (CNAF)</option><option>CPAP nasal</option><option>VNI (BiPAP / NIPPV)</option><option>VAFO</option><option>VMC — convencional</option></select>
+        </div>
+        <div class="f"><label>Accesos vasculares</label><input type="text" id="p-accesos" placeholder="CUV + CAU, PICC derecho día 4…"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Alimentación</label>
+          <select id="p-alim"><option value="">Seleccionar…</option><option>NPO</option><option>NPT + lípidos IV</option><option>Alimentación enteral mínima (AEM)</option><option>SOG — sonda orogástrica</option><option>SNG — sonda nasogástrica</option><option>Lactancia materna libre demanda</option><option>Mixta (LM + fórmula)</option><option>Fórmula exclusiva</option></select>
+        </div>
+        <div class="f"><label>Diuresis (ml/kg/h)</label><input type="text" id="p-diur" placeholder="2.5 ml/kg/h"></div>
+      </div>
+    </div>
+
+    <!-- SALA fields -->
+    <div id="sala-fields" style="display:none">
+      <div class="g2">
+        <div class="f"><label>Estado de lactancia</label>
+          <select id="p-lact"><option value="">Seleccionar…</option><option>LME establecida</option><option>LM en inicio / establecimiento</option><option>Mixta (LM + fórmula)</option><option>Fórmula exclusiva</option><option>Ayuno / indicación especial</option></select>
+        </div>
+        <div class="f"><label>Tamizaje neonatal</label>
+          <select id="p-tamiz"><option value="">Seleccionar…</option><option>Completo ✓</option><option>Pendiente — 1er día</option><option>Pendiente — audiometría (TEOAE)</option><option>Pendiente — PEATC</option><option>Pendiente — tamiz metabólico (TRCD)</option><option>Pendiente — ecocardiograma</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="f"><label>Medicamentos activos</label><textarea id="p-meds" placeholder="Ampicilina 100mg/kg/día c/12h IV, Gentamicina 5mg/kg/día c/24h IV, Cafeína 5mg/kg/día VO, Vitamina K 1mg IM…"></textarea></div>
+    <div class="f"><label>Laboratorios / imágenes recientes relevantes</label><textarea id="p-labs" placeholder="HMC x2 pendiente (día 2), PCR 2.1 mg/L (↑), Rx tórax: mejoría bilateral…"></textarea></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle" style="margin-bottom:12px"><span class="sd sd-r">R</span> Recomendaciones y plan</div>
+    <div class="f"><label>Pendientes críticos para próxima guardia</label><textarea id="p-pend" placeholder="Resultado HMC a las 48h, evaluar destete CPAP si FiO2 &lt;25%, ecografía cerebral 08:00…"></textarea></div>
+    <div class="f"><label>Indicaciones específicas a vigilar</label><textarea id="p-indic" placeholder="Si FC &gt;200 o SpO2 &lt;88% avisar de inmediato. Nueva dosis gentamicina 06:00. Control peso 07:00…"></textarea></div>
+    <!-- SALA ONLY: pacientes a vigilar -->
+    <div id="sala-vigilancia" style="display:none">
+      <div style="border-top:1px solid var(--bor);margin:12px 0 10px"></div>
+      <div class="ctitle" style="margin-bottom:8px;color:var(--rd)">⚠ Vigilancia especial (Sala de Alojamiento)</div>
+      <div class="f"><label>¿Requiere vigilancia especial esta guardia?</label>
+        <select id="p-vigilar"><option value="no">No — evolución normal</option><option value="si">Sí — requiere vigilancia</option></select>
+      </div>
+      <div id="vigilar-detalle" style="display:none">
+        <div class="f"><label>Motivo / qué vigilar</label><textarea id="p-vigilar-obs" placeholder="Ej: Ictericia en ascenso, bilirrubinoterapia iniciada, control de Bili a las 6h. Pérdida de peso &gt;10%, refuerzo de técnica de lactancia. Sospecha infección umbilical, observar eritema…"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acts">
+    <button class="btn btn-bl" onclick="savePatient()">✓ Guardar paciente</button>
+    <button class="btn btn-gh" onclick="clearForm()">Limpiar</button>
+  </div>
+  <div id="msg-pt" style="display:none;margin-top:10px"></div>
+</div>
+
+<!-- ═══ REPORTE ═══ -->
+<div id="view-reporte" style="display:none">
+  <div class="card">
+    <div class="ctitle" style="margin-bottom:8px">Generar reporte de entrega</div>
+    <p class="snote">Genera el reporte completo de ambas unidades (UCI y Sala de Alojamiento Conjunto) en formato SBAR. Listo para copiar a WhatsApp, correo o imprimir como PDF.</p>
+    <div class="acts" style="margin-top:0;margin-bottom:0">
+      <button class="btn btn-bl" onclick="generateReport()">📄 Generar reporte completo</button>
+      <button class="btn btn-gn" onclick="saveToHistory()">💾 Guardar en historial</button>
+    </div>
+    <div class="rbox" id="report-box" style="display:none"></div>
+    <div id="report-acts" style="display:none" class="acts">
+      <button class="btn" style="background:var(--bll);color:var(--bl);border-color:var(--blm)" onclick="copyReport()">📋 Copiar al portapapeles</button>
+      <button class="btn btn-gh" onclick="window.print()">🖨 Imprimir / PDF</button>
+      <button class="btn btn-gh" onclick="downloadTxt()">⬇ Descargar .txt</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HISTORIAL ═══ -->
+<div id="view-historial" style="display:none">
+  <div class="card">
+    <div class="card-hd">
+      <div class="ctitle">📁 Historial de guardias</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-gh" style="font-size:12px" onclick="exportAll()">⬇ Exportar todo</button>
+        <button class="btn btn-gh" style="font-size:12px" onclick="document.getElementById('file-import').click()">⬆ Importar .json</button>
+        <input type="file" id="file-import" accept=".json" onchange="importFile(event)">
+      </div>
+    </div>
+    <p class="snote">Guardias cerradas en este dispositivo. Exporta para respaldo o para cargar en otro equipo.</p>
+    <div id="hist-list"></div>
+    <div class="empty" id="hist-empty" style="display:none"><div class="empty-i">📂</div><div>Sin guardias en el historial todavía.<br>Guarda la guardia actual desde "Guardia actual".</div></div>
+  </div>
+</div>
+
+</main>
+
+<!-- MODAL DETALLE HISTORIAL -->
+<div class="mbg" id="hist-modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal" style="max-width:720px;max-height:88vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 id="modal-title">Detalle de guardia</h3>
+      <button class="btn btn-gh" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+    <div class="modal-acts" style="margin-top:16px">
+      <button class="btn btn-del" id="modal-del">🗑 Eliminar</button>
+      <button class="btn btn-gh" id="modal-exp">⬇ Exportar</button>
+      <button class="btn btn-bl" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let unit = 'uci';
+let patients = JSON.parse(localStorage.getItem('gh_patients') || '[]');
+let historial = JSON.parse(localStorage.getItem('gh_historial') || '[]');
+
+const INS = {
+  uci:['Surfactante','Cafeína citrato','Morfina / Fentanilo','NPT bolsas','Lípidos IV','Ampicilina','Gentamicina','Vancomicina','Penicilina G','Insumos CPAP','Circuitos VM','Equipo Neopuff','Gluconato Ca 10%','NaCl 0.9%','Dextrosa 10%','Adrenalina','Atropina','Fenobarbital'],
+  sala:['Vitamina K IM','Vacuna Hepatitis B','Eritromicina colirio','Glucómetro / tiras','Fototerapia disponible','Biliblanket','Leche de fórmula','Material de lactancia','Tamizaje kits','SOG / SNG']
+};
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function gv(id){const e=document.getElementById(id);return e?e.value:'';}
+function fmtDate(d){if(!d)return '—';const p=d.split('-');return `${p[2]}/${p[1]}/${p[0]}`;}
+function showMsg(id,cls,txt,ms=3500){const e=document.getElementById(id);if(!e)return;e.className='alert '+cls;e.textContent=txt;e.style.display='block';setTimeout(()=>e.style.display='none',ms);}
+function dlText(txt,name){const a=document.createElement('a');a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+function dlJson(obj,name){dlText(JSON.stringify(obj,null,2),name);}
+
+function calcEdad(fnac){
+  if(!fnac)return '';
+  const born=new Date(fnac+'T00:00:00'), now=new Date();
+  const ms=now-born; if(ms<0)return '';
+  const hrs=Math.floor(ms/3600000);
+  const dias=Math.floor(ms/86400000);
+  const sem=Math.floor(dias/7), dResto=dias%7;
+  if(dias===0)return hrs+' hora'+(hrs!==1?'s':'');
+  if(dias<7)return dias+' día'+(dias!==1?'s':'');
+  if(sem<8)return sem+' sem'+(dResto?' '+dResto+'d':'');
+  const mes=Math.floor(dias/30), dm=dias%30;
+  return mes+' mes'+(mes!==1?'es':'')+(dm?' '+dm+'d':'');
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+function init(){
+  const now=new Date();
+  document.getElementById('hdr-date').innerHTML=
+    now.toLocaleDateString('es-PE',{weekday:'short',day:'numeric',month:'short',year:'numeric'})+
+    '<br>'+now.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('g-fecha').value=now.toISOString().split('T')[0];
+  const h=now.getHours(), t=document.getElementById('g-turno');
+  if(h>=7&&h<13)t.value='Mañana (07:00 – 13:00)';
+  else if(h>=13&&h<19)t.value='Tarde (13:00 – 19:00)';
+  else t.value='Noche (19:00 – 07:00)';
+  // restore header
+  const gd=JSON.parse(localStorage.getItem('gh_header')||'{}');
+  if(gd.e)document.getElementById('g-entrega').value=gd.e;
+  if(gd.r)document.getElementById('g-recibe').value=gd.r;
+  if(gd.n)document.getElementById('g-novedades').value=gd.n;
+  if(gd.s)document.getElementById('g-stock').value=gd.s;
+  if(gd.t)document.getElementById('g-turno').value=gd.t;
+  if(gd.f)document.getElementById('g-fecha').value=gd.f;
+  ['g-entrega','g-recibe','g-novedades','g-stock','g-turno','g-fecha'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',saveHeader);
+    document.getElementById(id).addEventListener('change',saveHeader);
+  });
+  // p-vigilar toggle
+  document.getElementById('p-vigilar').addEventListener('change',function(){
+    document.getElementById('vigilar-detalle').style.display=this.value==='si'?'block':'none';
+  });
+  switchUnit('uci');
+}
+
+function saveHeader(){
+  localStorage.setItem('gh_header',JSON.stringify({
+    e:gv('g-entrega'),r:gv('g-recibe'),n:gv('g-novedades'),
+    s:gv('g-stock'),t:gv('g-turno'),f:gv('g-fecha')
+  }));
+}
+
+// ─── UNIT / TAB ───────────────────────────────────────────────────────────────
+function switchUnit(u){
+  unit=u;
+  document.getElementById('btn-uci').className='ubtn'+(u==='uci'?' u-uci':'');
+  document.getElementById('btn-sala').className='ubtn'+(u==='sala'?' u-sala':'');
+  const lbl=u==='uci'?'UCI / Intermedios':'Sala de Alojamiento Conjunto';
+  document.getElementById('unit-lbl-res').textContent=lbl;
+  document.getElementById('unit-lbl-pts').textContent=lbl;
+  document.getElementById('uci-fields').style.display=u==='uci'?'block':'none';
+  document.getElementById('sala-fields').style.display=u==='sala'?'block':'none';
+  document.getElementById('sala-vigilancia').style.display=u==='sala'?'block':'none';
+  renderInsumos(); renderStats(); renderListRes(); renderListFull();
+}
+
+function goTab(tab){
+  ['resumen','pacientes','nuevo','reporte','historial'].forEach(t=>{
+    document.getElementById('view-'+t).style.display=t===tab?'block':'none';
+    const b=document.getElementById('tn-'+t);
+    if(b)b.className='nbtn'+(t===tab?' active':'');
+  });
+  if(tab==='pacientes')renderListFull();
+  if(tab==='resumen'){renderStats();renderListRes();}
+  if(tab==='historial')renderHistorial();
+}
+
+// ─── INSUMOS ──────────────────────────────────────────────────────────────────
+function renderInsumos(){
+  const saved=JSON.parse(localStorage.getItem('gh_ins_'+unit)||'[]');
+  document.getElementById('insumos-chips').innerHTML=INS[unit].map(i=>
+    `<span class="chip${saved.includes(i)?' on-'+unit:''}" onclick="toggleChip(this,'${i.replace(/'/g,"\\'")}',event)">${i}</span>`
+  ).join('');
+}
+function toggleChip(el,name){
+  const k='gh_ins_'+unit;
+  let s=JSON.parse(localStorage.getItem(k)||'[]');
+  if(s.includes(name)){s=s.filter(x=>x!==name);el.className='chip';}
+  else{s.push(name);el.className='chip on-'+unit;}
+  localStorage.setItem(k,JSON.stringify(s));
+}
+
+// ─── STATS ────────────────────────────────────────────────────────────────────
+function renderStats(){
+  const pts=patients.filter(p=>p.unit===unit);
+  const cr=pts.filter(p=>p.estado==='critico').length;
+  const ob=pts.filter(p=>p.estado==='observacion').length;
+  const es=pts.filter(p=>p.estado==='estable').length;
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat"><div class="stn">${pts.length}</div><div class="stl">Total</div></div>
+    <div class="stat" style="border-top:3px solid #c0392b"><div class="stn" style="color:var(--rd)">${cr}</div><div class="stl">Críticos</div></div>
+    <div class="stat" style="border-top:3px solid #e67e22"><div class="stn" style="color:var(--am)">${ob}</div><div class="stl">Observación</div></div>
+    <div class="stat" style="border-top:3px solid #27ae60"><div class="stn" style="color:var(--gn)">${es}</div><div class="stl">Estables</div></div>`;
+}
+
+// ─── PATIENT RENDERING ────────────────────────────────────────────────────────
+function bdg(e){
+  if(e==='critico')return '<span class="badge bc">🔴 Crítico</span>';
+  if(e==='observacion')return '<span class="badge bo">🟡 Observación</span>';
+  return '<span class="badge be">🟢 Estable</span>';
+}
+
+function ptHtml(p,del){
+  const edad=p.fnac?calcEdad(p.fnac)||(p.edad||'—'):(p.edad||'—');
+  return `<div class="ptc ${p.estado}">
+    <div class="ptr">
+      <div style="min-width:0"><div class="ptn">${p.cama?'['+p.cama+'] ':''}${p.nombre||'RN sin nombre'}</div><div class="ptd">${p.dx||'—'}</div></div>
+      <div style="display:flex;gap:5px;align-items:center;flex-shrink:0">
+        ${bdg(p.estado)}
+        ${del?`<button class="btn btn-del" onclick="delPt('${p.id}')">✕</button>`:''}
+      </div>
+    </div>
+    <div class="ptm">
+      <span>EG: ${p.eg||'—'}</span><span>Edad: ${edad}</span><span>Peso: ${p.peso?p.peso+'g':'—'}</span>
+      ${p.fc?'<span>FC '+p.fc+' lpm</span>':''}${p.spo2?'<span>SpO₂ '+p.spo2+'%</span>':''}${p.temp?'<span>T° '+p.temp+'°C</span>':''}
+    </div>
+    ${p.pendientes?`<div class="ptp">⚠ ${p.pendientes}</div>`:''}
+    ${p.unit==='sala'&&p.vigilar==='si'&&p.vigilar_obs?`<div class="ptv">👁 Vigilar: ${p.vigilar_obs}</div>`:''}
+  </div>`;
+}
+
+function renderListRes(){
+  const pts=patients.filter(p=>p.unit===unit);
+  document.getElementById('pt-list-res').innerHTML=pts.length
+    ?pts.map(p=>ptHtml(p,false)).join('')
+    :'<div style="text-align:center;padding:16px;color:var(--tx3);font-size:13px">Sin pacientes en esta unidad.</div>';
+}
+
+function renderListFull(){
+  const pts=patients.filter(p=>p.unit===unit);
+  const el=document.getElementById('pt-list-full');
+  const em=document.getElementById('empty-pts');
+  if(!pts.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=pts.map(p=>ptHtml(p,true)).join('');
+}
+
+// ─── SAVE / DELETE PATIENT ────────────────────────────────────────────────────
+function updateEdadPreview(){
+  const fnac=gv('p-fnac');
+  const box=document.getElementById('edad-preview');
+  const txt=document.getElementById('edad-preview-txt');
+  if(!fnac){box.style.display='none';return;}
+  const e=calcEdad(fnac);
+  if(!e){box.style.display='none';return;}
+  txt.textContent=e; box.style.display='block';
+}
+
+function savePatient(){
+  const p={
+    id:Date.now().toString(), unit,
+    nombre:gv('p-nombre'), cama:gv('p-cama'), estado:gv('p-estado'),
+    eg:gv('p-eg'), fnac:gv('p-fnac'), peso:gv('p-peso'), dx:gv('p-dx'),
+    ante:gv('p-ante'), parto:gv('p-parto'), apgar:gv('p-apgar'), evol:gv('p-evol'),
+    fc:gv('p-fc'), fr:gv('p-fr'), spo2:gv('p-spo2'), temp:gv('p-temp'),
+    resp:gv('p-resp'), accesos:gv('p-accesos'), alim:gv('p-alim'), diur:gv('p-diur'),
+    lact:gv('p-lact'), tamiz:gv('p-tamiz'),
+    meds:gv('p-meds'), labs:gv('p-labs'),
+    pendientes:gv('p-pend'), indicaciones:gv('p-indic'),
+    vigilar:gv('p-vigilar'), vigilar_obs:gv('p-vigilar-obs'),
+  };
+  patients.push(p);
+  localStorage.setItem('gh_patients',JSON.stringify(patients));
+  clearForm();
+  showMsg('msg-pt','a-ok','✓ Paciente guardado correctamente.');
+  renderStats(); renderListRes();
+}
+
+function delPt(id){
+  if(!confirm('¿Eliminar este paciente de la guardia actual?'))return;
+  patients=patients.filter(p=>p.id!==id);
+  localStorage.setItem('gh_patients',JSON.stringify(patients));
+  renderListFull(); renderStats(); renderListRes();
+}
+
+function clearForm(){
+  ['p-nombre','p-cama','p-eg','p-fnac','p-peso','p-dx','p-ante','p-apgar',
+   'p-evol','p-fc','p-fr','p-spo2','p-temp','p-accesos','p-diur',
+   'p-meds','p-labs','p-pend','p-indic','p-vigilar-obs'].forEach(id=>{
+    const e=document.getElementById(id);if(e)e.value='';
+  });
+  ['p-estado','p-parto','p-resp','p-alim','p-lact','p-tamiz','p-vigilar'].forEach(id=>{
+    const e=document.getElementById(id);if(e)e.selectedIndex=0;
+  });
+  document.getElementById('edad-preview').style.display='none';
+  document.getElementById('vigilar-detalle').style.display='none';
+}
+
+// ─── REPORT ───────────────────────────────────────────────────────────────────
+function buildReport(pts, header, ins_uci, ins_sala){
+  const uciPts=pts.filter(p=>p.unit==='uci');
+  const salaPts=pts.filter(p=>p.unit==='sala');
+  const me=header.e||'—', mr=header.r||'—';
+  const turno=header.t||'—', fecha=fmtDate(header.f);
+  const novedades=header.n||'Sin novedades.';
+  const stock=header.s||'Sin alertas.';
+  const allIns=[...(ins_uci||[]),...(ins_sala||[])].join(', ')||'Ninguno marcado';
+
+  let r=`╔═══════════════════════════════════════════════════════════════╗
+║         REPORTE DE ENTREGA DE GUARDIA NEONATAL               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+  Fecha    : ${fecha}     Turno: ${turno}
+  Entrega  : Dr/a. ${me}
+  Recibe   : Dr/a. ${mr}
+  Centro   : Clínica Adventista Good Hope · Lima, Perú
+
+═══════════════════════════════════════════════════════════════════
+ RESUMEN GENERAL
+═══════════════════════════════════════════════════════════════════
+
+  UCI / Intermedios  : ${uciPts.length} pac.  (🔴 ${uciPts.filter(p=>p.estado==='critico').length}  🟡 ${uciPts.filter(p=>p.estado==='observacion').length}  🟢 ${uciPts.filter(p=>p.estado==='estable').length})
+  Aloj. Conjunto     : ${salaPts.length} pac.  (🔴 ${salaPts.filter(p=>p.estado==='critico').length}  🟡 ${salaPts.filter(p=>p.estado==='observacion').length}  🟢 ${salaPts.filter(p=>p.estado==='estable').length})
+  Total              : ${pts.length} pacientes
+
+  Novedades:
+  ${novedades}
+
+  Alertas de stock/insumos: ${stock}
+  Insumos verificados: ${allIns}
+
+`;
+
+  // SECCIÓN UCI
+  r+=`═══════════════════════════════════════════════════════════════════\n UCI / INTERMEDIOS NEONATAL (${uciPts.length} pacientes)\n═══════════════════════════════════════════════════════════════════\n`;
+  if(!uciPts.length){r+='\n  Sin pacientes registrados.\n';}
+  else{
+    uciPts.forEach((p,i)=>{
+      const est=p.estado==='critico'?'🔴 CRÍTICO':p.estado==='observacion'?'🟡 EN OBSERVACIÓN':'🟢 ESTABLE';
+      const edad=p.fnac?calcEdad(p.fnac)||fmtDate(p.fnac):(p.edad||'—');
+      r+=`
+[${i+1}] ${p.cama?'['+p.cama+'] ':''}${p.nombre||'RN sin nombre'}  ·  ${est}
+───────────────────────────────────────────────────────────────────
+
+[S] SITUACIÓN
+    Diagnóstico    : ${p.dx||'—'}
+    EG nacer       : ${p.eg||'—'}
+    Fecha nacim.   : ${p.fnac?fmtDate(p.fnac):'—'}
+    Edad postnatal : ${edad}
+    Peso actual    : ${p.peso?p.peso+' g':'—'}
+
+[B] BACKGROUND
+    Antecedentes   : ${p.ante||'—'}
+    Parto          : ${p.parto||'—'}
+    APGAR          : ${p.apgar||'—'}
+    Evolución:
+    ${p.evol||'—'}
+
+[A] EVALUACIÓN ACTUAL
+    FC: ${p.fc?p.fc+' lpm':'—'}  |  FR: ${p.fr?p.fr+' rpm':'—'}  |  SpO₂: ${p.spo2?p.spo2+'%':'—'}  |  Tº: ${p.temp?p.temp+'°C':'—'}
+    Soporte resp.  : ${p.resp||'Sin soporte'}
+    Accesos vasc.  : ${p.accesos||'—'}
+    Alimentación   : ${p.alim||'—'}
+    Diuresis       : ${p.diur||'—'}
+    Medicamentos:
+    ${p.meds||'—'}
+    Labs / imágenes:
+    ${p.labs||'—'}
+
+[R] RECOMENDACIONES
+    Pendientes críticos:
+    ${p.pendientes||'—'}
+    Indicaciones a vigilar:
+    ${p.indicaciones||'—'}
+
+`;
+    });
+  }
+
+  // SECCIÓN SALA
+  r+=`═══════════════════════════════════════════════════════════════════\n SALA DE ALOJAMIENTO CONJUNTO (${salaPts.length} pacientes)\n═══════════════════════════════════════════════════════════════════\n`;
+
+  // Resumen de vigilancia especial
+  const ptVigilar=salaPts.filter(p=>p.vigilar==='si'&&p.vigilar_obs);
+  if(ptVigilar.length){
+    r+=`\n⚠  PACIENTES A VIGILAR ESTA GUARDIA (${ptVigilar.length})\n`;
+    ptVigilar.forEach(p=>{
+      r+=`  → ${p.cama?'['+p.cama+'] ':''}${p.nombre||'RN sin nombre'}: ${p.vigilar_obs}\n`;
+    });
+    r+='\n';
+  }
+
+  if(!salaPts.length){r+='  Sin pacientes registrados.\n';}
+  else{
+    salaPts.forEach((p,i)=>{
+      const est=p.estado==='critico'?'🔴 CRÍTICO':p.estado==='observacion'?'🟡 EN OBSERVACIÓN':'🟢 ESTABLE';
+      const edad=p.fnac?calcEdad(p.fnac)||fmtDate(p.fnac):(p.edad||'—');
+      r+=`
+[${i+1}] ${p.cama?'['+p.cama+'] ':''}${p.nombre||'RN sin nombre'}  ·  ${est}
+───────────────────────────────────────────────────────────────────
+
+[S] SITUACIÓN
+    Diagnóstico    : ${p.dx||'—'}
+    EG nacer       : ${p.eg||'—'}
+    Fecha nacim.   : ${p.fnac?fmtDate(p.fnac):'—'}
+    Edad postnatal : ${edad}
+    Peso actual    : ${p.peso?p.peso+' g':'—'}
+
+[B] BACKGROUND
+    Antecedentes   : ${p.ante||'—'}
+    Parto          : ${p.parto||'—'}
+    APGAR          : ${p.apgar||'—'}
+    Evolución:
+    ${p.evol||'—'}
+
+[A] EVALUACIÓN ACTUAL
+    FC: ${p.fc?p.fc+' lpm':'—'}  |  FR: ${p.fr?p.fr+' rpm':'—'}  |  SpO₂: ${p.spo2?p.spo2+'%':'—'}  |  Tº: ${p.temp?p.temp+'°C':'—'}
+    Lactancia      : ${p.lact||'—'}
+    Tamizaje       : ${p.tamiz||'—'}
+    Medicamentos:
+    ${p.meds||'—'}
+    Labs / imágenes:
+    ${p.labs||'—'}
+
+[R] RECOMENDACIONES
+    Pendientes críticos:
+    ${p.pendientes||'—'}
+    Indicaciones a vigilar:
+    ${p.indicaciones||'—'}
+    Vigilancia especial : ${p.vigilar==='si'?'SÍ — '+p.vigilar_obs:'No'}
+
+`;
+    });
+  }
+
+  r+=`═══════════════════════════════════════════════════════════════════\n  Generado: ${new Date().toLocaleString('es-PE')} · Clínica Adventista Good Hope · Lima\n═══════════════════════════════════════════════════════════════════`;
+  return r;
+}
+
+let _report='';
+function generateReport(){
+  const hdr=JSON.parse(localStorage.getItem('gh_header')||'{}');
+  const iu=JSON.parse(localStorage.getItem('gh_ins_uci')||'[]');
+  const is=JSON.parse(localStorage.getItem('gh_ins_sala')||'[]');
+  _report=buildReport(patients,hdr,iu,is);
+  const box=document.getElementById('report-box');
+  box.textContent=_report; box.style.display='block';
+  document.getElementById('report-acts').style.display='flex';
+}
+
+function copyReport(){
+  if(!_report)return;
+  const copy=()=>{const b=event.target;b.textContent='✓ Copiado';setTimeout(()=>b.textContent='📋 Copiar al portapapeles',2200);};
+  navigator.clipboard?navigator.clipboard.writeText(_report).then(copy):(()=>{const ta=document.createElement('textarea');ta.value=_report;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);copy();})();
+}
+
+function downloadTxt(){
+  if(!_report)return;
+  const hdr=JSON.parse(localStorage.getItem('gh_header')||'{}');
+  dlText(_report,`guardia_${hdr.f||'sin-fecha'}_${(hdr.t||'turno').split(' ')[0]}.txt`);
+}
+
+// ─── HISTORY ──────────────────────────────────────────────────────────────────
+function buildGuardiaObj(){
+  const hdr=JSON.parse(localStorage.getItem('gh_header')||'{}');
+  return{
+    id:Date.now().toString(), savedAt:new Date().toISOString(),
+    header:hdr,
+    patients:JSON.parse(JSON.stringify(patients)),
+    ins_uci:JSON.parse(localStorage.getItem('gh_ins_uci')||'[]'),
+    ins_sala:JSON.parse(localStorage.getItem('gh_ins_sala')||'[]'),
+    version:'3.0'
+  };
+}
+
+function saveToHistory(){
+  if(!confirm('¿Guardar la guardia actual en el historial y preparar la herramienta para la siguiente guardia?'))return;
+  const g=buildGuardiaObj();
+  g.report=buildReport(patients,g.header,g.ins_uci,g.ins_sala);
+  historial.unshift(g);
+  localStorage.setItem('gh_historial',JSON.stringify(historial));
+  // reset
+  patients=[];
+  localStorage.setItem('gh_patients',JSON.stringify([]));
+  localStorage.removeItem('gh_header');
+  localStorage.removeItem('gh_ins_uci');
+  localStorage.removeItem('gh_ins_sala');
+  ['g-entrega','g-recibe','g-novedades','g-stock'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('g-fecha').value=new Date().toISOString().split('T')[0];
+  renderInsumos(); renderStats(); renderListRes();
+  showMsg('msg-guardia','a-ok',`✓ Guardia guardada en el historial. Lista para el siguiente turno.`,5000);
+  goTab('resumen');
+}
+
+function exportCurrent(){
+  const g=buildGuardiaObj();
+  const hdr=g.header;
+  dlJson(g,`guardia_${hdr.f||'sin-fecha'}_${(hdr.t||'turno').split(' ')[0]}.json`);
+}
+
+function exportAll(){
+  dlJson({exportedAt:new Date().toISOString(),version:'3.0',historial},`historial_GH_${new Date().toISOString().split('T')[0]}.json`);
+}
+
+function renderHistorial(){
+  const el=document.getElementById('hist-list');
+  const em=document.getElementById('hist-empty');
+  if(!historial.length){el.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  el.innerHTML=historial.map(h=>{
+    const hd=h.header||{};
+    const d=h.savedAt?new Date(h.savedAt).toLocaleDateString('es-PE',{day:'numeric',month:'short',year:'numeric',weekday:'short'}):fmtDate(hd.f);
+    const n=h.patients?h.patients.length:0;
+    const uci=h.patients?h.patients.filter(p=>p.unit==='uci').length:0;
+    const sala=h.patients?h.patients.filter(p=>p.unit==='sala').length:0;
+    return `<div class="hi" onclick="openModal('${h.id}')">
+      <div>
+        <div class="hid">${fmtDate(hd.f)||d} · ${hd.t||'—'}</div>
+        <div class="him">Cerrada ${d} · Dr/a. ${hd.e||'—'} → ${hd.r||'—'} · UCI: ${uci} · Sala: ${sala} · Total: ${n} pac.</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="btn btn-gh" style="font-size:12px" onclick="event.stopPropagation();exportOne('${h.id}')">⬇</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+let _modalId=null;
+function openModal(id){
+  const g=historial.find(x=>x.id===id);if(!g)return;
+  _modalId=id;
+  const hd=g.header||{};
+  document.getElementById('modal-title').textContent=`${fmtDate(hd.f)||'—'} · ${hd.t||'—'} — Dr/a. ${hd.e||'—'}`;
+  // Build patient summary
+  const pts=g.patients||[];
+  let html='';
+  if(g.report){
+    html=`<div class="rbox" style="max-height:50vh;font-size:12px">${g.report}</div>`;
+  } else {
+    html='<p style="color:var(--tx3);font-size:13px">'+pts.length+' pacientes en esta guardia.</p>';
+    pts.forEach(p=>{
+      const edad=p.fnac?calcEdad(p.fnac)||fmtDate(p.fnac):(p.edad||'—');
+      html+=`<div style="border:1px solid var(--bor);border-left:3px solid ${p.estado==='critico'?'#c0392b':p.estado==='observacion'?'#e67e22':'#27ae60'};border-radius:6px;padding:9px 12px;margin-bottom:7px;font-size:13px">
+        <div style="display:flex;justify-content:space-between"><b>${p.cama?'['+p.cama+'] ':''}${p.nombre||'RN'}</b>${bdg(p.estado)}</div>
+        <div style="color:var(--tx2);margin-top:2px">${p.dx||'—'}</div>
+        <div style="color:var(--tx3);margin-top:3px;font-size:12px">EG: ${p.eg||'—'} · Edad: ${edad} · Peso: ${p.peso?p.peso+'g':'—'}</div>
+        ${p.pendientes?`<div style="margin-top:5px;font-size:12px;color:var(--am)">⚠ ${p.pendientes}</div>`:''}
+        ${p.unit==='sala'&&p.vigilar==='si'&&p.vigilar_obs?`<div style="margin-top:5px;font-size:12px;color:var(--rd)">👁 ${p.vigilar_obs}</div>`:''}
+      </div>`;
+    });
+  }
+  document.getElementById('modal-body').innerHTML=html;
+  document.getElementById('modal-del').onclick=()=>delFromHistory(id);
+  document.getElementById('modal-exp').onclick=()=>{exportOne(id);};
+  document.getElementById('hist-modal').style.display='flex';
+}
+
+function closeModal(){document.getElementById('hist-modal').style.display='none';_modalId=null;}
+
+function delFromHistory(id){
+  if(!confirm('¿Eliminar esta guardia del historial? No se puede deshacer.'))return;
+  historial=historial.filter(h=>h.id!==id);
+  localStorage.setItem('gh_historial',JSON.stringify(historial));
+  closeModal(); renderHistorial();
+}
+
+function exportOne(id){
+  const g=historial.find(x=>x.id===id);if(!g)return;
+  const hd=g.header||{};
+  dlJson(g,`guardia_${hd.f||g.id}_${(hd.t||'turno').split(' ')[0]}.json`);
+}
+
+function importFile(ev){
+  const file=ev.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      // Full export
+      if(data.historial&&Array.isArray(data.historial)){
+        if(!confirm(`¿Importar ${data.historial.length} guardia(s)? Se agregarán al historial existente.`))return;
+        const ids=new Set(historial.map(h=>h.id));
+        let added=0;
+        data.historial.forEach(h=>{if(!ids.has(h.id)){historial.push(h);added++;}});
+        historial.sort((a,b)=>new Date(b.savedAt)-new Date(a.savedAt));
+        localStorage.setItem('gh_historial',JSON.stringify(historial));
+        renderHistorial();
+        alert('✓ '+added+' guardia(s) importada(s).');
+      }
+      // Single guardia
+      else if(data.header&&data.patients){
+        if(!confirm('¿Agregar esta guardia al historial?'))return;
+        if(!data.id)data.id=Date.now().toString();
+        if(!historial.find(h=>h.id===data.id)){
+          historial.unshift(data);
+          localStorage.setItem('gh_historial',JSON.stringify(historial));
+          renderHistorial();
+          alert('✓ Guardia importada correctamente.');
+        } else alert('Esta guardia ya está en el historial.');
+      } else alert('Formato no reconocido.');
+    }catch(err){alert('Error al leer el archivo: '+err.message);}
+    ev.target.value='';
+  };
+  reader.readAsText(file);
+}
+
+// ─── START ────────────────────────────────────────────────────────────────────
+init();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
